@@ -1,28 +1,22 @@
 // src/components/Notification.js
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
-const Notification = ({ message, type = "info", duration = 3000 }) => {
-  const [visible, setVisible] = useState(true);
-
+const Notification = ({ message, type, onClose }) => {
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), duration);
+    const timer = setTimeout(onClose, 3000);
     return () => clearTimeout(timer);
-  }, [duration]);
-
-  if (!visible) return null;
-
-  const bgColor =
-    type === "success"
-      ? "bg-green-500"
-      : type === "error"
-      ? "bg-red-500"
-      : "bg-blue-500";
+  }, [onClose]);
 
   return (
     <div
-      className={`fixed top-4 right-4 px-4 py-2 text-white ${bgColor} rounded`}
+      className={`fixed top-4 right-4 px-4 py-2 rounded shadow-lg text-white ${
+        type === "success" ? "bg-green-500" : "bg-red-500"
+      } animate-fade`}
     >
       {message}
+      <button onClick={onClose} className="ml-4 font-bold">
+        &times;
+      </button>
     </div>
   );
 };

@@ -1,60 +1,67 @@
 // src/services/api.js
+import axios from "axios";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-let users = [
-  { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Editor" },
-];
-
-let roles = [
-  { id: 1, name: "Admin", permissions: ["read", "write", "delete"] },
-  { id: 2, name: "Editor", permissions: ["read", "write"] },
-];
-
-// Users
-export const getUsers = async () => {
+export const fetchUsers = async () => {
   await delay(500);
-  return users;
+  return [
+    { id: 1, name: "John Doe", role: "Admin", status: "Active" },
+    { id: 2, name: "Jane Smith", role: "Editor", status: "Inactive" },
+  ];
 };
 
-export const createUser = async (user) => {
+// Additional functions for roles, permissions, etc.
+export const fetchRoles = async () => {
   await delay(500);
-  user.id = Date.now();
-  users.push(user);
+  return [
+    { id: 1, name: "Admin", permissions: ["Read", "Write", "Delete"] },
+    { id: 2, name: "Editor", permissions: ["Read", "Write"] },
+  ];
 };
 
-export const updateUser = async (id, updatedUser) => {
+export const fetchPermissions = async () => {
   await delay(500);
-  users = users.map((user) =>
-    user.id === id ? { ...user, ...updatedUser } : user
-  );
+  return [
+    { id: 1, name: "Read" },
+    { id: 2, name: "Write" },
+    { id: 3, name: "Delete" },
+  ];
 };
 
-export const deleteUser = async (id) => {
+export const updateUserRole = async (userId, role) => {
   await delay(500);
-  users = users.filter((user) => user.id !== id);
+  return { success: true, userId, role };
 };
 
-// Roles
-export const getRoles = async () => {
+export const addRole = async (role) => {
   await delay(500);
-  return roles;
+  return { success: true, role };
 };
 
-export const createRole = async (role) => {
-  await delay(500);
-  role.id = Date.now();
-  roles.push(role);
+// Add similar functions for permission management, etc.
+
+const api = axios.create({
+  baseURL: "http://localhost:5000/api", // Update with your actual backend URL
+});
+
+// Add User
+export const addUser = async (userData) => {
+  const response = await api.post("/users", userData);
+  return response.data;
 };
 
-export const updateRole = async (id, updatedRole) => {
-  await delay(500);
-  roles = roles.map((role) =>
-    role.id === id ? { ...role, ...updatedRole } : role
-  );
+// Add Role
+// export const addRole = async (roleData) => {
+//   const response = await api.post("/roles", roleData);
+//   return response.data;
+// };
+
+// Add Permission
+export const addPermission = async (permissionData) => {
+  const response = await api.post("/permissions", permissionData);
+  return response.data;
 };
 
-export const deleteRole = async (id) => {
-  await delay(500);
-  roles = roles.filter((role) => role.id !== id);
-};
+// Other API methods (getUsers, getRoles, getPermissions) go here...
+
+export default api;

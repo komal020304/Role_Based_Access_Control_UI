@@ -1,63 +1,50 @@
-// // src/pages/ProfilePage.js
-// import React from "react";
-
-// const ProfilePage = () => {
-//   return (
-//     <div>
-//       <h1 className="text-3xl font-bold mb-6">Profile</h1>
-//       <p>Your profile details would go here.</p>
-//     </div>
-//   );
-// };
-
-// export default ProfilePage;
-
 // src/pages/ProfilePage.js
 import React, { useState } from "react";
-import Button from "../components/Button";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({
     name: "John Doe",
-    email: "john.doe@example.com",
+    email: "johndoe@example.com",
+    role: "Admin",
   });
+  const [password, setPassword] = useState("");
 
-  const handleSave = () => {
-    // Handle save logic here
-    alert("Profile saved");
+  const handlePasswordUpdate = () => {
+    // Handle password update logic here
   };
 
   return (
     <div className="profile-page p-4">
-      <h1 className="text-4xl font-bold mb-8">Profile</h1>
+      <h2 className="text-2xl font-bold mb-4">Profile</h2>
 
-      <div className="max-w-md mx-auto">
-        <img
-          src="https://via.placeholder.com/100"
-          alt="Profile"
-          className="rounded-full mx-auto mb-4"
+      <div className="bg-white shadow-md p-4 rounded-lg mb-4">
+        <h3 className="font-semibold text-lg mb-2">User Details</h3>
+        <p>
+          <strong>Name:</strong> {profile.name}
+        </p>
+        <p>
+          <strong>Email:</strong> {profile.email}
+        </p>
+        <p>
+          <strong>Role:</strong> {profile.role}
+        </p>
+      </div>
+
+      <div className="bg-white shadow-md p-4 rounded-lg mb-4">
+        <h3 className="font-semibold text-lg mb-2">Update Password</h3>
+        <input
+          type="password"
+          placeholder="New Password"
+          className="w-full p-2 border rounded mb-2"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <h2 className="text-2xl font-semibold text-center">{profile.name}</h2>
-
-        <div className="mt-6">
-          <label className="block mb-2 font-semibold">Name</label>
-          <input
-            type="text"
-            value={profile.name}
-            className="border p-2 rounded w-full mb-4"
-          />
-
-          <label className="block mb-2 font-semibold">Email</label>
-          <input
-            type="email"
-            value={profile.email}
-            className="border p-2 rounded w-full mb-4"
-          />
-
-          <Button onClick={handleSave} className="w-full">
-            Save Changes
-          </Button>
-        </div>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handlePasswordUpdate}
+        >
+          Update Password
+        </button>
       </div>
     </div>
   );
